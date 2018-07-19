@@ -1,6 +1,6 @@
 <h1 align=center>PowerMonitor-CLI</h1>
 <p align="center">
-    <a href="https://github.com/lucka-me/PowerMonitor-CLI/commits/master"><img alt="Version" src="https://img.shields.io/badge/version-0.1-red.svg"/></a>
+    <a href="https://github.com/lucka-me/PowerMonitor-CLI/commits/master"><img alt="Version" src="https://img.shields.io/badge/version-0.1.1-brightgreen.svg"/></a>
     <a href="https://lucka.moe"><img alt="Author" src="https://img.shields.io/badge/author-Lucka-5880C8.svg"/></a>
   <a href="./LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-A31F34.svg"/></a><br>
   <a href="https://www.visualstudio.com/zh-hans/vs/community/"><img alt="IDE" src="https://img.shields.io/badge/IDE-Visual_Studio_Community_2017-8662C2.svg"/></a>
@@ -20,6 +20,17 @@ A temperature monitor in CLI, based on [Intel® Power Gadget](https://software.i
 ## Requirement
 ### Enviroment and Packages
 - [Intel® Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget-20)
+
+## Changelog
+```markdown
+## [0.1.1] - 2018-07-20
+### Changed
+- Output format improved
+- Get MSR index of CPU and Processor by the name
+
+## [0.1] - 2018-07-19
+- Initial version with all base functions
+```
 
 ## Reference
 - [DLL 调用（2）：C++ 动态调用 DLL | CSDN](https://blog.csdn.net/ezhchai/article/details/78784815)

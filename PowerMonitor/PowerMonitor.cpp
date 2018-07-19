@@ -20,18 +20,17 @@ using namespace std;
 
 
 int main() {
+    fcout << "================================================================================" << endl
+        << "                                PowerMonitor-CLI                                " << endl
+        << "                               0.1.1  by lucka-me                               " << endl
+        << "--------------------------------------------------------------------------------" << endl
+        << "                               System Information                               " << endl;
     IntelPowerGadgetControl ipgCtrl;
     if (!ipgCtrl.Initialize()) {
         fcout << "Error: " + ipgCtrl.GetLastError() << endl;
         return -1;
     }
-    fcout << "Intel Power Gadget API initializing succeed." << endl;
-    fcout << "================================================================================" << endl
-        << "                                PowerMonitor-CLI                                " << endl
-        << "                                0.1  by lucka-me                                " << endl
-        << "--------------------------------------------------------------------------------" << endl
-        << "                               System Information                               " << endl;
-    // Set the pricision
+    // Set the precision
     //   Ref: https://stackoverflow.com/questions/554063
     fcout.precision(2);
     int numNodes = 0;
@@ -46,13 +45,20 @@ int main() {
         ipgCtrl.GetBaseFrequency(iNode, &nodeBaseFreq);
         ipgCtrl.GetTDP(iNode, &nodeTDP);
         ipgCtrl.GetMaxTemperature(iNode, &nodeMaxTemperature);
-        fcout << "  - CPU " << iNode << ": @" << int(nodeBaseFreq) << " MHz | TDP: " << int(nodeTDP) << " W | Max Temp: " << nodeMaxTemperature << " ℃" << endl;
+        fcout << "  - CPU " << iNode << ": @" << int(nodeBaseFreq) << " MHz | TDP: " << int(nodeTDP) << " W | Max Temp: " << nodeMaxTemperature << " C" << endl;
     }
     fcout << " The system supports " << numMSRs << " MSR(s)." << endl;
+    int msrCPUIndex = 0;
+    int msrProcessorIndex = 0;
     for (int iMSR = 0; iMSR < numMSRs; iMSR++) {
         wchar_t szName[MAX_PATH];
         ipgCtrl.GetMsrName(iMSR, szName);
         fcout << "  - MSR " << iMSR << ": " << szName << endl;
+        if (wcsstr(szName, L"CPU")) {
+            msrCPUIndex = iMSR;
+        } else if (wcsstr(szName, L"Processor")) {
+            msrProcessorIndex = iMSR;
+        }
     }
     if (ipgCtrl.IsGTAvailable()) {
         fcout << " Intel Graphics is available" << endl;
@@ -69,8 +75,7 @@ int main() {
         if (ipgCtrl.ReadSample() == false)
             fcout << "Warning: MSR overflowed. You can safely discard this sample." << endl;
 
-        fcout << "--------------------------------------------------------------------------------" << endl 
-            << " CPU    Frequency (Mhz)    Power (W)    Temperature (℃)" << endl;
+        fcout << " CPU    Frequency (Mhz)    Power (W)    Temperature (C)" << endl;
         for (int iNode = 0; iNode < numNodes; iNode++) {
             double nodeFreq = -1.0;
             double nodePower = -1.0;
@@ -78,10 +83,10 @@ int main() {
             double result[3];
             int nResult;
             // CPU Freq
-            ipgCtrl.GetPowerData(iNode, 0, result, &nResult);
+            ipgCtrl.GetPowerData(iNode, msrCPUIndex, result, &nResult);
             nodeFreq = result[0];
             // Processor Power
-            ipgCtrl.GetPowerData(iNode, 1, result, &nResult);
+            ipgCtrl.GetPowerData(iNode, msrProcessorIndex, result, &nResult);
             nodePower = result[0];
             // Temprature
             ipgCtrl.GetTemperature(iNode, &nodeTemperature);
@@ -95,6 +100,7 @@ int main() {
             ipgCtrl.GetGTFrequency(&gtFreq);
             fcout << " Intel Graphics @" << gtFreq << "MHz" << endl;
         }
+        fcout << "--------------------------------------------------------------------------------" << endl;
     }
     return 0;
 }

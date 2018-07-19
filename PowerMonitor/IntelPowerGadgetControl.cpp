@@ -31,21 +31,21 @@ bool IntelPowerGadgetControl::Initialize(void) {
     GetEnvironmentVariable(L"IPG_Dir", libDirStr, MAX_PATH);
     GetEnvironmentVariable(L"IPG_Ver", libVerStr, MAX_PATH);
     if (libDirStr == NULL || wcslen(libDirStr) == 0 || libVerStr == NULL || wcslen(libVerStr) == 0) {
-        lastError = "Intel Power Gadget not found. Please install the application or check the user's path environment variable.";
+        lastError = " Intel Power Gadget not found. Please install the application or check the user's path environment variable.";
         return false;
     }
 #ifdef OUTPUT_PROCESS
-    fcout << "Intel Power Gadget found at " << libDirStr << endl;
+    fcout << " Intel Power Gadget path: " << libDirStr << endl;
 #endif // OUTPUT_PROCESS
 
     // Check if the version is 2.7+
     int libVer = int(_wtof(libVerStr) * 100);
     if (libVer < 270) {
-        lastError = "Intel Power Gadget 2.7 or higher is required. Please update the application.";
+        lastError = " Intel Power Gadget 2.7 or higher is required. Please update the application.";
         return false;
     }
 #ifdef OUTPUT_PROCESS
-    fcout << "Intel Power Gadget version: " << libVerStr << endl;
+    fcout << " Intel Power Gadget version: " << libVerStr << endl;
 #endif // OUTPUT_PROCESS
 
 #if _M_X64
@@ -57,7 +57,7 @@ bool IntelPowerGadgetControl::Initialize(void) {
     // Load the library
     libModule = LoadLibrary(libLocation);
     if (libModule == NULL) {
-        lastError = "Load library failed from " + libLocation;
+        lastError = " Load library failed from " + libLocation;
         return false;
     }
 
@@ -83,7 +83,7 @@ bool IntelPowerGadgetControl::Initialize(void) {
 
     // Initialize the library
     if (!pInitialize()) {
-        lastError = "Intal Power Gadget library initializing failed.";
+        lastError = " Intal Power Gadget library initializing failed.";
         return false;
     }
 
