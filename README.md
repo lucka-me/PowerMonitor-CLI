@@ -14,7 +14,8 @@
 A temperature monitor in CLI, based on [Intel® Power Gadget](https://software.intel.com/en-us/articles/intel-power-gadget-20) [API](https://software.intel.com/blogs/2014/01/07/using-the-intel-power-gadget-30-api-on-windows), and used to learn about loading DLL dynamically.
 
 ## Functions
-(Under development)
+- Display information of CPU and MSR.
+- Fetch and display the frequency, power and temperature every 2 seconds.
 
 ## Requirement
 ### Enviroment and Packages

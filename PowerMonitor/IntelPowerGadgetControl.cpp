@@ -94,7 +94,7 @@ CString IntelPowerGadgetControl::GetLastError(void) {
     return lastError;
 }
 
-bool IntelPowerGadgetControl::GReadSample(void) {
+bool IntelPowerGadgetControl::ReadSample(void) {
     return pReadSample();
 }
 

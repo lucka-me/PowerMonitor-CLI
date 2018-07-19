@@ -23,7 +23,7 @@ public:
     bool Initialize(void);
     CString GetLastError(void);
 
-    bool GReadSample       (void);
+    bool ReadSample       (void);
     bool GetNumNodes       (int * nNodes);
     bool GetNumMsrs        (int * nMsr);
     bool GetMsrName        (int iMsr, wchar_t * szName);
